@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import moment from 'moment-timezone'; // Importar moment-timezone
+import moment from 'moment-timezone';
 
 dotenv.config();
 
@@ -33,11 +33,9 @@ export async function enviarEmail(destinatario, assunto, mensagem) {
       from: `"Société de Langues" <${process.env.EMAIL_USER}>`,
       to: destinatario,
       subject: assunto,
-      text: mensagem, // Agora só manda a mensagem que já foi formatada antes
+      text: mensagem,
     });
   } catch (error) {
     console.error("❌ Erro ao enviar e-mail:", error);
   }
 }
-
-export { enviarEmail };
