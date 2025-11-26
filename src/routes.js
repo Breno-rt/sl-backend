@@ -383,10 +383,10 @@ router.post('/aulas', autenticarToken, async (req, res) => {
       `👨‍🏫 Professor(a): ${novaAula.professor.nome}\n` +
       `📅 Data: ${formatarData(novaAula.data)}\n` + // Formata a data para DD/MM/YYYY
       `⏰ Horário: ${horario}\n\n` +
-      `Caso tenha dúvidas, entre em contato com o suporte: (12) 996819714`;
+      `Caso tenha dúvidas, entre em contato com o suporte: (12) 996819714`; 
 
-    await enviarEmail(novaAula.professor.email, "Nova Aula Agendada", mensagemProfessor);
-    await enviarEmail(novaAula.aluno.email, "Aula Confirmada", mensagemAluno);
+    // await enviarEmail(novaAula.professor.email, "Nova Aula Agendada", mensagemProfessor);
+   // await enviarEmail(novaAula.aluno.email, "Aula Confirmada", mensagemAluno);
 
     res.status(201).json(novaAula);
   } catch (error) {
@@ -492,8 +492,8 @@ router.put('/aulas/:id', autenticarToken, async (req, res) => {
                      `⏰ Horário: ${horario}\n\n` +
                      `Caso tenha dúvidas, entre em contato com o suporte: (12) 996819714`;
 
-    await enviarEmail(aulaAtualizada.professor.email, "Aula Atualizada", mensagem);
-    await enviarEmail(aulaAtualizada.aluno.email, "Aula Atualizada", mensagem);
+    //await enviarEmail(aulaAtualizada.professor.email, "Aula Atualizada", mensagem);
+    //await enviarEmail(aulaAtualizada.aluno.email, "Aula Atualizada", mensagem);
 
     res.json(aulaAtualizada);
   } catch (error) {
@@ -533,8 +533,8 @@ router.delete('/aulas/:id', autenticarToken, async (req, res) => {
                      `Caso tenha dúvidas, entre em contato com o suporte: (12) 996819714`;
 
     // 🔹 Enviar e-mails de cancelamento
-    await enviarEmail(aula.professor.email, "Aula Cancelada", mensagem);
-    await enviarEmail(aula.aluno.email, "Aula Cancelada", mensagem);
+    //await enviarEmail(aula.professor.email, "Aula Cancelada", mensagem);
+    //await enviarEmail(aula.aluno.email, "Aula Cancelada", mensagem);
 
     // 🔹 Excluir a aula do banco de dados
     await prisma.aula.delete({ where: { id } });
