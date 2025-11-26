@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import moment from 'moment-timezone';
+import moment from 'moment-timezone'; // Importar moment-timezone
 
 dotenv.config();
 
@@ -15,19 +15,29 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 🔥 TESTE DE CONEXÃO - adiciona isso
-console.log("🔄 Testando conexão SMTP...");
-console.log("📧 Email User:", process.env.EMAIL_USER);
-console.log("🔑 Email Host:", process.env.EMAIL_HOST);
-console.log("🚪 Email Port:", process.env.EMAIL_PORT);
+// Função para formatar a data corretamente
+function formatarData(data) {
+  if (!data) return "Data inválida";
 
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log("❌ ERRO SMTP:", error);
-  } else {
-    console.log("✅ SMTP CONECTADO COM SUCESSO!");
+  try {
+    return moment.utc(data).tz('America/Sao_Paulo').format('DD/MM/YYYY');
+  } catch {
+    return "Data inválida";
   }
-});
-// FIM DO TESTE
+}
 
-// ... resto do código igual
+// Função para enviar e-mails sem adicionar data/horário automaticamente
+export async function enviarEmail(destinatario, assunto, mensagem) {
+  try {
+    await transporter.sendMail({
+      from: `"Société de Langues" <${process.env.EMAIL_USER}>`,
+      to: destinatario,
+      subject: assunto,
+      text: mensagem, // Agora só manda a mensagem que já foi formatada antes
+    });
+  } catch (error) {
+    console.error("❌ Erro ao enviar e-mail:", error);
+  }
+}
+
+export { enviarEmail };
