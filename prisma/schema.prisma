@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome      String
+  email     String   @unique
+  senha     String
+  
+   // Campos para recuperação de senha
+  tokenRecuperacao String?    // Token temporário
+  tokenExpiracao   DateTime?  // Expiração do token
+}
+
+model Professor {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome      String
+  email     String   @unique
+  telefone  String   @unique
+  materia   String[]
+  aulas     Aula[]
+}
+
+model Aluno {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome      String
+  email     String   @unique
+  telefone  String   @unique
+  materia   String[]  
+  aulas     Aula[]
+}
+
+model Aula {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  data        String
+  horario     String
+  professor   Professor @relation(fields: [professorId], references: [id])
+  professorId String @db.ObjectId
+  aluno       Aluno @relation(fields: [alunoId], references: [id])
+  alunoId     String @db.ObjectId
+  materia   String  
+}
