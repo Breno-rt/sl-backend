@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configurado corretamente
 app.use(cors({
-  origin: "*"
+  origin: "https://sl-frontend-dbym.onrender.com",
+  credentials: true
 }));
 
 
